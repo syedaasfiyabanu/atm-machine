@@ -55,17 +55,22 @@ public class Deposit extends Transaction
                "enclosed cash and your checks clear.");
             
             // credit account to reflect the deposit
-            bankDatabase.credit(getAccountNumber(), amount); 
+            bankDatabase.credit(getAccountNumber(), amount);
+            
+            // Log transaction
+            TransactionHistory.addTransaction(getAccountNumber(), "Deposit", amount, "Success"); 
          } // end if
          else // deposit envelope not received
          {
         	 screen.messageJLabel2.setText("\nYou did not insert an " +
                "envelope, so the ATM has canceled your transaction.");
+            TransactionHistory.addTransaction(getAccountNumber(), "Deposit", amount, "Failed - No envelope");
          } // end else
       } // end if 
       else // user canceled instead of entering amount
       {
     	  screen.messageJLabel2.setText("\nCanceling transaction...");
+          TransactionHistory.addTransaction(getAccountNumber(), "Deposit", 0, "Cancelled");
       } // end else
    } // end method execute
 

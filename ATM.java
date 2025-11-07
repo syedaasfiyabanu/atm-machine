@@ -30,7 +30,10 @@ public class ATM
    private static final int BALANCE_INQUIRY = 1;
    private static final int WITHDRAWAL = 2;
    private static final int DEPOSIT = 3;
-   private static final int EXIT = 4;
+   private static final int TRANSFER = 4;
+   private static final int CHANGE_PIN = 5;
+   private static final int TRANSACTION_HISTORY = 6;
+   private static final int EXIT = 7;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() 
@@ -157,23 +160,29 @@ public class ATM
 	   }
 	   //creating the main menu GUI
 	   public void createmenu(){
-		   screen.setSize( 300, 150 );
+		   screen.setSize( 400, 250 );
 	    	  balancecheck check1 = new balancecheck();
 	    	  Depositcheck check2 = new Depositcheck();
 	    	  Withdrawcheck check3 = new Withdrawcheck();
-	    	  Exitcheck check4 = new Exitcheck();
+	    	  Transfercheck check4 = new Transfercheck();
+	    	  ChangePINcheck check5 = new ChangePINcheck();
+	    	  TransactionHistorycheck check6 = new TransactionHistorycheck();
+	    	  Exitcheck check7 = new Exitcheck();
 	    	  screen.Mainframe.getContentPane().removeAll();
 	    	  screen.Mainframe.revalidate();
 	    	  //Add the keypad panel to the GUI
 	    	  screen.Mainframe.add( keypad.addkeypad(), BorderLayout.CENTER);
 	    	  screen.createmenu();
 	    	  Account Account1 = bankDatabase.getAccount(currentAccountNumber);
-	    	  screen.messageJLabel.setText("Welcome " + Account1.getUsername() + "                                                                                   ");
+	    	  screen.messageJLabel.setText("Welcome " + Account1.getUsername() + " (Account #" + currentAccountNumber + ")");
 	    	  
 	    	  keypad.B1.addActionListener( check1 );
 	    	  keypad.B2.addActionListener(check3);
 	    	  keypad.B3.addActionListener(check2);
 	    	  keypad.B4.addActionListener(check4);
+	    	  keypad.B5.addActionListener(check5);
+	    	  keypad.B6.addActionListener(check6);
+	    	  keypad.B7.addActionListener(check7);
 	    	  screen.Mainframe.revalidate();
 	   }
    // display the main menu and perform transactions
@@ -210,6 +219,32 @@ public class ATM
 	      public void actionPerformed( ActionEvent e )
 	      {
 	    	  startlogin();
+	      }
+	      }
+	   
+	   private class Transfercheck implements ActionListener
+	   {
+	      public void actionPerformed( ActionEvent e )
+	      {
+	    	  userinput = "";
+	    	  performTransactions(4);
+	      }
+	      }
+	   
+	   private class ChangePINcheck implements ActionListener
+	   {
+	      public void actionPerformed( ActionEvent e )
+	      {
+	    	  userinput = "";
+	    	  performTransactions(5);
+	      }
+	      }
+	   
+	   private class TransactionHistorycheck implements ActionListener
+	   {
+	      public void actionPerformed( ActionEvent e )
+	      {
+	    	  displayTransactionHistory();
 	      }
 	      }
 	   
@@ -273,9 +308,50 @@ public class ATM
         	 screen.setSize( 400, 250 );
             temp = new Deposit(currentAccountNumber, screen, 
                bankDatabase, keypad, depositSlot);}
+         else if(type == 4){ // create new Transfer transaction
+        	 screen.setSize( 400, 250 );
+            temp = new Transfer(currentAccountNumber, screen, 
+               bankDatabase, keypad);}
+         else if(type == 5){ // create new ChangePIN transaction
+        	 screen.setSize( 400, 250 );
+            temp = new ChangePIN(currentAccountNumber, screen, 
+               bankDatabase, keypad);}
        // end switch
 
       return temp; // return the newly created object
+   }
+   
+   // Display transaction history
+   private void displayTransactionHistory()
+   {
+      screen.createTransactionHistoryGUI();
+      java.util.ArrayList<TransactionHistory.TransactionRecord> history = 
+         TransactionHistory.getRecentHistory(currentAccountNumber, 5);
+      
+      if (history.isEmpty())
+      {
+         screen.messageJLabel2.setText("No transaction history available.");
+      }
+      else
+      {
+         int count = Math.min(history.size(), 4);
+         for (int i = 0; i < count; i++)
+         {
+            TransactionHistory.TransactionRecord record = history.get(history.size() - 1 - i);
+            String displayText = record.getTransactionType() + ": $" + 
+                                String.format("%.2f", record.getAmount()) + 
+                                " - " + record.getStatus();
+            if (i == 0) screen.messageJLabel2.setText(displayText);
+            else if (i == 1) screen.messageJLabel3.setText(displayText);
+            else if (i == 2) screen.messageJLabel4.setText(displayText);
+            else if (i == 3) screen.messageJLabel5.setText(displayText);
+         }
+      }
+      
+      Backcheck Back = new Backcheck();
+      screen.Exit.addActionListener(Back);
+      screen.Mainframe.add(keypad.addkeypad(), BorderLayout.CENTER);
+      screen.Mainframe.revalidate();
    }
     // end method createTransaction
    

@@ -47,10 +47,20 @@ This launches the Swing GUI window titled "ATM".
   - Customers: 11111, 22222, 33333
   - Admin: 0
 - After login:
-  - 1: Balance Inquiry
-  - 2: Withdrawal
-  - 3: Deposit (amount in cents, e.g., 1234 -> $12.34)
-  - 4: Exit/Back
+  - 1: Balance Inquiry - View your account balance
+  - 2: Withdrawal - Withdraw cash (options: $20, $40, $60, $100, $200)
+  - 3: Deposit - Deposit money (amount in cents, e.g., 1234 -> $12.34)
+  - 4: Transfer - Transfer money to another account
+  - 5: Change PIN - Change your PIN (4-6 digits)
+  - 6: Transaction History - View your recent transaction history
+  - 7: Exit/Back - Logout and return to login screen
+
+## New Features
+- **Transaction History**: All transactions are logged and can be viewed in the Transaction History menu
+- **PIN Change**: Users can securely change their PIN with confirmation
+- **Transfer Money**: Transfer funds between accounts with validation
+- **Account Number Display**: Account number is now shown in the welcome message
+- **Enhanced Logging**: All transactions (successful and failed) are logged with timestamps
 
 ## Troubleshooting
 - "javac is not recognized": Ensure JDK 17 is installed and PATH updated. On Windows, open a new terminal after installation or invoke the full path, e.g.:

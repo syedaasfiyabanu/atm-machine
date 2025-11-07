@@ -93,13 +93,19 @@ public void createmenu(){
 	messageJLabel2 = new JLabel("1 - Balance");
 	messageJLabel3 = new JLabel("2 - Withdrawal");
 	messageJLabel4 = new JLabel("3 - Deposit");
-	messageJLabel5 = new JLabel("4 - Exit");
+	messageJLabel5 = new JLabel("4 - Transfer");
+	messageJLabel6 = new JLabel("5 - Change PIN");
+	messageJLabel7 = new JLabel("6 - Transaction History");
+	messageJLabel8 = new JLabel("7 - Exit");
 	Mainframe.setLayout( new FlowLayout() ); // set layout
 	Mainframe.add(messageJLabel);
 	Mainframe.add( messageJLabel2 ); // add first prompt
 	Mainframe.add( messageJLabel3 ); // add second prompt
 	Mainframe.add( messageJLabel4 ); // add message label 
 	Mainframe.add( messageJLabel5 );
+	Mainframe.add( messageJLabel6 );
+	Mainframe.add( messageJLabel7 );
+	Mainframe.add( messageJLabel8 );
 	Mainframe.repaint();
 }
 
@@ -209,6 +215,61 @@ public void createAdminpage(){
 	
 	Mainframe.add(button2);
 	
+	Mainframe.add(Exit);
+	Mainframe.repaint();
+}
+
+//Create the Change PIN GUI
+public void createChangePINGUI(){
+	Mainframe.getContentPane().removeAll();
+	messageJLabel = new JLabel("Change PIN");
+	messageJLabel2 = new JLabel("Enter your new PIN (4-6 digits):");
+	messageJLabel3 = new JLabel("");
+	Inputfield2 = new JTextField(10);
+	Inputfield2.setEditable(false);
+	Exit = new JButton("Cancel");
+	Mainframe.setLayout( new FlowLayout() );
+	Mainframe.add(messageJLabel);
+	Mainframe.add(messageJLabel2);
+	Mainframe.add(messageJLabel3);
+	Mainframe.add(Inputfield2);
+	Mainframe.add(Exit);
+	Mainframe.repaint();
+}
+
+//Create the Transfer GUI
+public void createTransferGUI(){
+	Mainframe.getContentPane().removeAll();
+	messageJLabel = new JLabel("Transfer Money");
+	messageJLabel2 = new JLabel("Enter target account number:");
+	messageJLabel3 = new JLabel("");
+	Inputfield2 = new JTextField(10);
+	Inputfield2.setEditable(false);
+	Exit = new JButton("Cancel");
+	Mainframe.setLayout( new FlowLayout() );
+	Mainframe.add(messageJLabel);
+	Mainframe.add(messageJLabel2);
+	Mainframe.add(messageJLabel3);
+	Mainframe.add(Inputfield2);
+	Mainframe.add(Exit);
+	Mainframe.repaint();
+}
+
+//Create the Transaction History GUI
+public void createTransactionHistoryGUI(){
+	Mainframe.getContentPane().removeAll();
+	messageJLabel = new JLabel("Transaction History");
+	messageJLabel2 = new JLabel("");
+	messageJLabel3 = new JLabel("");
+	messageJLabel4 = new JLabel("");
+	messageJLabel5 = new JLabel("");
+	Exit = new JButton("Back");
+	Mainframe.setLayout( new FlowLayout() );
+	Mainframe.add(messageJLabel);
+	Mainframe.add(messageJLabel2);
+	Mainframe.add(messageJLabel3);
+	Mainframe.add(messageJLabel4);
+	Mainframe.add(messageJLabel5);
 	Mainframe.add(Exit);
 	Mainframe.repaint();
 }

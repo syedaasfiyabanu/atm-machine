@@ -65,17 +65,22 @@ public class Withdrawal extends Transaction
                   // instruct user to take cash
                   screen.messageJLabel7.setText("\nYour cash has been" +
                      " dispensed. Please take your cash now.");
+                  
+                  // Log transaction
+                  TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Success");
                } // end if
                else // cash dispenser does not have enough cash
             	   screen.messageJLabel7.setText(
                      "\nInsufficient cash available in the ATM." +
                      "\n\nPlease choose a smaller amount.");
+                  TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Failed - Insufficient ATM cash");
             } // end if
             else // not enough money available in user's account
             {
                screen.messageJLabel7.setText(
                   "\nInsufficient funds in your account." +
-                  "\n\nPlease choose a smaller amount."); 
+                  "\n\nPlease choose a smaller amount.");
+               TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Failed - Insufficient funds"); 
             } // end else
          } // end if
          // end else

@@ -57,6 +57,17 @@ public class Deposit extends Transaction
             // credit account to reflect the deposit
             bankDatabase.credit(getAccountNumber(), amount);
             
+            // Get new balance for receipt
+            double newBalance = bankDatabase.getAvailableBalance(getAccountNumber());
+            
+            // Generate receipt
+            String receipt = generateReceipt("Deposit", amount, newBalance);
+            
+            screen.messageJLabel2.setText("\nYour envelope has been " + 
+               "received.\nNOTE: The money just deposited will not ");
+            screen.messageJLabel3.setText("be available until we verify the amount of any " +
+               "enclosed cash and your checks clear.\n\n" + receipt);
+            
             // Log transaction
             TransactionHistory.addTransaction(getAccountNumber(), "Deposit", amount, "Success"); 
          } // end if
@@ -102,6 +113,18 @@ public class Deposit extends Transaction
          makedeposit(amount);
        
       }
+   }
+   
+   // Generate a receipt for the transaction
+   private String generateReceipt(String transactionType, double amount, double newBalance)
+   {
+      String receipt = "=== TRANSACTION RECEIPT ===\n";
+      receipt += "Type: " + transactionType + "\n";
+      receipt += "Amount: $" + String.format("%.2f", amount) + "\n";
+      receipt += "New Balance: $" + String.format("%.2f", newBalance) + "\n";
+      receipt += "Date: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) + "\n";
+      receipt += "========================";
+      return receipt;
    }
 }
  // end class Deposit

@@ -96,7 +96,8 @@ public void createmenu(){
 	messageJLabel5 = new JLabel("4 - Transfer");
 	messageJLabel6 = new JLabel("5 - Change PIN");
 	messageJLabel7 = new JLabel("6 - Transaction History");
-	messageJLabel8 = new JLabel("7 - Exit");
+	messageJLabel8 = new JLabel("7 - Export Statement");
+	messageJLabel9 = new JLabel("8 - Exit");
 	Mainframe.setLayout( new FlowLayout() ); // set layout
 	Mainframe.add(messageJLabel);
 	Mainframe.add( messageJLabel2 ); // add first prompt
@@ -106,6 +107,7 @@ public void createmenu(){
 	Mainframe.add( messageJLabel6 );
 	Mainframe.add( messageJLabel7 );
 	Mainframe.add( messageJLabel8 );
+	Mainframe.add( messageJLabel9 );
 	Mainframe.repaint();
 }
 
@@ -270,6 +272,23 @@ public void createTransactionHistoryGUI(){
 	Mainframe.add(messageJLabel3);
 	Mainframe.add(messageJLabel4);
 	Mainframe.add(messageJLabel5);
+	Mainframe.add(Exit);
+	Mainframe.repaint();
+}
+
+//Create the Export Statement GUI
+public void createExportStatementGUI(){
+	Mainframe.getContentPane().removeAll();
+	messageJLabel = new JLabel("Export Account Statement");
+	messageJLabel2 = new JLabel("");
+	messageJLabel3 = new JLabel("");
+	messageJLabel4 = new JLabel("");
+	Exit = new JButton("Back");
+	Mainframe.setLayout( new FlowLayout() );
+	Mainframe.add(messageJLabel);
+	Mainframe.add(messageJLabel2);
+	Mainframe.add(messageJLabel3);
+	Mainframe.add(messageJLabel4);
 	Mainframe.add(Exit);
 	Mainframe.repaint();
 }

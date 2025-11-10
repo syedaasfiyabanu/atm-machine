@@ -133,9 +133,24 @@ public class Transfer extends Transaction
             bankDatabase.debit(getAccountNumber(), transferAmount);
             bankDatabase.credit(targetAccountNumber, transferAmount);
             
+            // Get new balance for receipt
+            double newBalance = bankDatabase.getAvailableBalance(getAccountNumber());
+            Account account = bankDatabase.getAccount(getAccountNumber());
+            
+            // Check for low balance warning
+            String lowBalanceWarning = "";
+            if (account.isLowBalance())
+            {
+               lowBalanceWarning = "\n⚠ WARNING: Your account balance is low!";
+            }
+            
+            // Generate receipt
+            String receipt = generateReceipt("Transfer Out", transferAmount, newBalance, targetAccountNumber);
+            
             screen.messageJLabel3.setText("Transfer successful! $" + 
                                           String.format("%.2f", transferAmount) + 
-                                          " transferred to Account #" + targetAccountNumber);
+                                          " transferred to Account #" + targetAccountNumber +
+                                          lowBalanceWarning + "\n\n" + receipt);
             
             // Log transaction
             TransactionHistory.addTransaction(getAccountNumber(), "Transfer Out", 
@@ -192,6 +207,19 @@ public class Transfer extends Transaction
          userInput = "";
          screen.Inputfield2.setText("");
       }
+   }
+   
+   // Generate a receipt for the transaction
+   private String generateReceipt(String transactionType, double amount, double newBalance, int targetAccount)
+   {
+      String receipt = "=== TRANSACTION RECEIPT ===\n";
+      receipt += "Type: " + transactionType + "\n";
+      receipt += "Amount: $" + String.format("%.2f", amount) + "\n";
+      receipt += "To Account: #" + targetAccount + "\n";
+      receipt += "New Balance: $" + String.format("%.2f", newBalance) + "\n";
+      receipt += "Date: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) + "\n";
+      receipt += "========================";
+      return receipt;
    }
 }
 

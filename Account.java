@@ -11,6 +11,9 @@ public class Account
    private double totalBalance; // funds available + pending deposits
    private int admin;
    private String username;
+   private double dailyWithdrawalAmount; // amount withdrawn today
+   private double dailyWithdrawalLimit; // daily withdrawal limit
+   private String lastTransactionDate; // last date of transaction (for resetting daily limit)
 
    // Account constructor initializes attributes
    public Account(String Username, int theAccountNumber, int thePIN, 
@@ -22,6 +25,9 @@ public class Account
       setAvailableBalance(theAvailableBalance);
       setTotalBalance(theTotalBalance);
       setAdmin(isadmin);
+      setDailyWithdrawalLimit(1000.0); // Default daily limit of $1000
+      setDailyWithdrawalAmount(0.0);
+      setLastTransactionDate(new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()));
    } // end Account constructor
 
    // determines whether a user-specified PIN matches PIN in Account
@@ -108,7 +114,56 @@ public int getAdmin() {
 public void setAdmin(int admin) {
 	this.admin = admin;
 }
-   
+
+public double getDailyWithdrawalAmount() {
+	return dailyWithdrawalAmount;
+}
+
+public void setDailyWithdrawalAmount(double dailyWithdrawalAmount) {
+	this.dailyWithdrawalAmount = dailyWithdrawalAmount;
+}
+
+public double getDailyWithdrawalLimit() {
+	return dailyWithdrawalLimit;
+}
+
+public void setDailyWithdrawalLimit(double dailyWithdrawalLimit) {
+	this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+}
+
+public String getLastTransactionDate() {
+	return lastTransactionDate;
+}
+
+public void setLastTransactionDate(String lastTransactionDate) {
+	this.lastTransactionDate = lastTransactionDate;
+}
+
+// Reset daily withdrawal amount if it's a new day
+public void resetDailyWithdrawalIfNewDay() {
+	String today = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+	if (!today.equals(getLastTransactionDate())) {
+		setDailyWithdrawalAmount(0.0);
+		setLastTransactionDate(today);
+	}
+}
+
+// Check if withdrawal amount exceeds daily limit
+public boolean canWithdraw(double amount) {
+	resetDailyWithdrawalIfNewDay();
+	return (getDailyWithdrawalAmount() + amount) <= getDailyWithdrawalLimit();
+}
+
+// Add to daily withdrawal amount
+public void addToDailyWithdrawal(double amount) {
+	resetDailyWithdrawalIfNewDay();
+	setDailyWithdrawalAmount(getDailyWithdrawalAmount() + amount);
+}
+
+// Check if balance is low (below $50)
+public boolean isLowBalance() {
+	return getAvailableBalance() < 50.0;
+}
   
    
 } // end class Account

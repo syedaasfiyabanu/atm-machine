@@ -31,10 +31,17 @@ public class BalanceInquiry extends Transaction
          bankDatabase.getTotalBalance(getAccountNumber());
       
       // display the balance information on the screen
+      Account account = bankDatabase.getAccount(getAccountNumber());
+      String lowBalanceWarning = "";
       
+      // Check for low balance warning
+      if (account.isLowBalance())
+      {
+         lowBalanceWarning = "\n⚠ WARNING: Your account balance is low (below $50.00)!";
+      }
       
       screen.creatBalanceGUI();
-      screen.messageJLabel2.setText("Available Balance: $" + String.format("%.2f", availableBalance));
+      screen.messageJLabel2.setText("Available Balance: $" + String.format("%.2f", availableBalance) + lowBalanceWarning);
       screen.messageJLabel3.setText("Total Balance: $" + String.format("%.2f", totalBalance));
       screen.Mainframe.revalidate();
       

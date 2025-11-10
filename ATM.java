@@ -33,7 +33,8 @@ public class ATM
    private static final int TRANSFER = 4;
    private static final int CHANGE_PIN = 5;
    private static final int TRANSACTION_HISTORY = 6;
-   private static final int EXIT = 7;
+   private static final int EXPORT_STATEMENT = 7;
+   private static final int EXIT = 8;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() 
@@ -167,7 +168,8 @@ public class ATM
 	    	  Transfercheck check4 = new Transfercheck();
 	    	  ChangePINcheck check5 = new ChangePINcheck();
 	    	  TransactionHistorycheck check6 = new TransactionHistorycheck();
-	    	  Exitcheck check7 = new Exitcheck();
+	    	  ExportStatementcheck check7 = new ExportStatementcheck();
+	    	  Exitcheck check8 = new Exitcheck();
 	    	  screen.Mainframe.getContentPane().removeAll();
 	    	  screen.Mainframe.revalidate();
 	    	  //Add the keypad panel to the GUI
@@ -183,6 +185,7 @@ public class ATM
 	    	  keypad.B5.addActionListener(check5);
 	    	  keypad.B6.addActionListener(check6);
 	    	  keypad.B7.addActionListener(check7);
+	    	  keypad.B8.addActionListener(check8);
 	    	  screen.Mainframe.revalidate();
 	   }
    // display the main menu and perform transactions
@@ -245,6 +248,14 @@ public class ATM
 	      public void actionPerformed( ActionEvent e )
 	      {
 	    	  displayTransactionHistory();
+	      }
+	      }
+	   
+	   private class ExportStatementcheck implements ActionListener
+	   {
+	      public void actionPerformed( ActionEvent e )
+	      {
+	    	  exportAccountStatement();
 	      }
 	      }
 	   
@@ -346,6 +357,32 @@ public class ATM
             else if (i == 2) screen.messageJLabel4.setText(displayText);
             else if (i == 3) screen.messageJLabel5.setText(displayText);
          }
+      }
+      
+      Backcheck Back = new Backcheck();
+      screen.Exit.addActionListener(Back);
+      screen.Mainframe.add(keypad.addkeypad(), BorderLayout.CENTER);
+      screen.Mainframe.revalidate();
+   }
+   
+   // Export account statement to file
+   private void exportAccountStatement()
+   {
+      boolean success = StatementExporter.exportStatement(currentAccountNumber);
+      screen.createExportStatementGUI();
+      
+      if (success)
+      {
+         String filename = "statement_account_" + currentAccountNumber + "_" + 
+                          new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date()) + ".txt";
+         screen.messageJLabel2.setText("Statement exported successfully!");
+         screen.messageJLabel3.setText("File: " + filename);
+         screen.messageJLabel4.setText("Saved in project directory.");
+      }
+      else
+      {
+         screen.messageJLabel2.setText("Error exporting statement.");
+         screen.messageJLabel3.setText("Please try again.");
       }
       
       Backcheck Back = new Backcheck();

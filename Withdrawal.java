@@ -44,12 +44,24 @@ public class Withdrawal extends Transaction
          Screen screen = getScreen();
     	 boolean cashDispensed = false; // cash was not dispensed yet
          double availableBalance;
-         // check whether user chose a withdrawal amount or canceled
+         Account account = bankDatabase.getAccount(getAccountNumber());
          
             // get available balance of account involved
             availableBalance = 
                bankDatabase.getAvailableBalance(getAccountNumber());
       
+            // Check daily withdrawal limit first
+            if (!account.canWithdraw(amount))
+            {
+               double remainingLimit = account.getDailyWithdrawalLimit() - account.getDailyWithdrawalAmount();
+               screen.messageJLabel7.setText(
+                  "\nDaily withdrawal limit exceeded." +
+                  "\nRemaining daily limit: $" + String.format("%.2f", remainingLimit) +
+                  "\n\nPlease choose a smaller amount.");
+               TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Failed - Daily limit exceeded");
+               return;
+            }
+            
             // check whether the user has enough money in the account 
             if (amount <= availableBalance)
             {   
@@ -58,13 +70,22 @@ public class Withdrawal extends Transaction
                {
                   // update the account involved to reflect the withdrawal
                   bankDatabase.debit(getAccountNumber(), amount);
+                  account.addToDailyWithdrawal(amount);
                   
                   cashDispenser.dispenseCash(amount); // dispense cash
                   cashDispensed = true; // cash was dispensed
 
+                  // Check for low balance warning
+                  String lowBalanceWarning = "";
+                  if (account.isLowBalance())
+                  {
+                     lowBalanceWarning = "\nWARNING: Your account balance is low!";
+                  }
+                  
                   // instruct user to take cash
                   screen.messageJLabel7.setText("\nYour cash has been" +
-                     " dispensed. Please take your cash now.");
+                     " dispensed. Please take your cash now." + lowBalanceWarning +
+                     "\n\n" + generateReceipt("Withdrawal", amount, availableBalance - amount));
                   
                   // Log transaction
                   TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Success");
@@ -148,6 +169,18 @@ public class Withdrawal extends Transaction
       {
         transaction(200);
       }
+   }
+   
+   // Generate a receipt for the transaction
+   private String generateReceipt(String transactionType, double amount, double newBalance)
+   {
+      String receipt = "=== TRANSACTION RECEIPT ===\n";
+      receipt += "Type: " + transactionType + "\n";
+      receipt += "Amount: $" + String.format("%.2f", amount) + "\n";
+      receipt += "New Balance: $" + String.format("%.2f", newBalance) + "\n";
+      receipt += "Date: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) + "\n";
+      receipt += "========================";
+      return receipt;
    }
 } 
 

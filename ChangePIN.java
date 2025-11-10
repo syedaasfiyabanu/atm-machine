@@ -81,6 +81,26 @@ public class ChangePIN extends Transaction
             }
             
             newPIN = Integer.parseInt(userInput);
+            
+            // Check if new PIN is same as current PIN
+            Account account = bankDatabase.getAccount(getAccountNumber());
+            if (account != null && account.GetPin() == newPIN)
+            {
+               screen.messageJLabel3.setText("New PIN cannot be the same as current PIN. Please try again.");
+               userInput = "";
+               screen.Inputfield2.setText("");
+               return;
+            }
+            
+            // Validate PIN strength (check for weak PINs)
+            if (!isValidPIN(userInput))
+            {
+               screen.messageJLabel3.setText("PIN is too weak. Avoid sequential or repeating digits. Please try again.");
+               userInput = "";
+               screen.Inputfield2.setText("");
+               return;
+            }
+            
             step = 2;
             userInput = "";
             screen.messageJLabel2.setText("Please confirm your new PIN:");
@@ -164,6 +184,38 @@ public class ChangePIN extends Transaction
          userInput = "";
          screen.Inputfield2.setText("");
       }
+   }
+   
+   // Validate PIN strength - check for weak patterns
+   private boolean isValidPIN(String pin)
+   {
+      // Check for all same digits (e.g., 1111, 2222)
+      boolean allSame = true;
+      for (int i = 1; i < pin.length(); i++)
+      {
+         if (pin.charAt(i) != pin.charAt(0))
+         {
+            allSame = false;
+            break;
+         }
+      }
+      if (allSame)
+         return false;
+      
+      // Check for sequential digits (e.g., 1234, 4321)
+      boolean sequential = true;
+      boolean reverseSequential = true;
+      for (int i = 1; i < pin.length(); i++)
+      {
+         if (pin.charAt(i) != pin.charAt(i-1) + 1)
+            sequential = false;
+         if (pin.charAt(i) != pin.charAt(i-1) - 1)
+            reverseSequential = false;
+      }
+      if (sequential || reverseSequential)
+         return false;
+      
+      return true;
    }
 }
 

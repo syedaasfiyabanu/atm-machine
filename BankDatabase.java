@@ -49,6 +49,12 @@ public class BankDatabase
 
       return null; // if no matching account was found, return null
    } //
+   
+   // Public method to get account by PIN (for lockout checking)
+   public Account getAccountByPin(int PIN)
+   {
+      return getAccountpin(PIN);
+   }
 
    // determine whether user-specified account number and PIN match
    // those of an account in the database

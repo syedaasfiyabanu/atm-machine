@@ -14,6 +14,11 @@ public class Account
    private double dailyWithdrawalAmount; // amount withdrawn today
    private double dailyWithdrawalLimit; // daily withdrawal limit
    private String lastTransactionDate; // last date of transaction (for resetting daily limit)
+   private int failedLoginAttempts; // number of failed login attempts
+   private boolean isLocked; // whether account is locked
+   private static final int MAX_FAILED_ATTEMPTS = 3; // maximum failed attempts before lockout
+   private static final double MINIMUM_BALANCE = 10.0; // minimum balance requirement
+   private static final double MAX_TRANSACTION_AMOUNT = 5000.0; // maximum single transaction amount
 
    // Account constructor initializes attributes
    public Account(String Username, int theAccountNumber, int thePIN, 
@@ -28,6 +33,8 @@ public class Account
       setDailyWithdrawalLimit(1000.0); // Default daily limit of $1000
       setDailyWithdrawalAmount(0.0);
       setLastTransactionDate(new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()));
+      setFailedLoginAttempts(0);
+      setIsLocked(false);
    } // end Account constructor
 
    // determines whether a user-specified PIN matches PIN in Account
@@ -163,6 +170,51 @@ public void addToDailyWithdrawal(double amount) {
 // Check if balance is low (below $50)
 public boolean isLowBalance() {
 	return getAvailableBalance() < 50.0;
+}
+
+// Check if account has minimum balance
+public boolean hasMinimumBalance(double amount) {
+	return (getAvailableBalance() - amount) >= MINIMUM_BALANCE;
+}
+
+// Get minimum balance requirement
+public static double getMinimumBalance() {
+	return MINIMUM_BALANCE;
+}
+
+// Get maximum transaction amount
+public static double getMaxTransactionAmount() {
+	return MAX_TRANSACTION_AMOUNT;
+}
+
+// Failed login attempt tracking
+public void incrementFailedAttempts() {
+	failedLoginAttempts++;
+	if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+		setIsLocked(true);
+	}
+}
+
+// Reset failed attempts (on successful login)
+public void resetFailedAttempts() {
+	failedLoginAttempts = 0;
+	setIsLocked(false);
+}
+
+public int getFailedLoginAttempts() {
+	return failedLoginAttempts;
+}
+
+public boolean getIsLocked() {
+	return isLocked;
+}
+
+public void setIsLocked(boolean locked) {
+	this.isLocked = locked;
+}
+
+public int getRemainingAttempts() {
+	return MAX_FAILED_ATTEMPTS - failedLoginAttempts;
 }
   
    

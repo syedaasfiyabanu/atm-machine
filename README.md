@@ -67,6 +67,10 @@ This launches the Swing GUI window titled "ATM".
 - **Transaction Receipts**: All transactions (withdrawal, deposit, transfer) now generate detailed receipts showing transaction type, amount, new balance, and timestamp
 - **Account Statement Export**: Users can export their transaction history to a text file (option 7 in the main menu)
 - **Enhanced PIN Validation**: PIN changes now validate for weak PINs (rejecting sequential digits, repeating digits, and same-as-current PIN)
+- **Account Lockout Security**: Accounts are locked after 3 failed PIN attempts for security protection
+- **Minimum Balance Requirement**: Accounts must maintain a minimum balance of $10.00 (prevents overdrafts)
+- **Maximum Transaction Limits**: Single transaction limit of $5,000 to prevent fraud and errors
+- **Enhanced Error Handling**: Improved input validation and error messages throughout the application
 
 ## Troubleshooting
 - "javac is not recognized": Ensure JDK 17 is installed and PATH updated. On Windows, open a new terminal after installation or invoke the full path, e.g.:

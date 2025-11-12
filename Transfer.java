@@ -118,12 +118,33 @@ public class Transfer extends Transaction
                return;
             }
             
+            // Check maximum transaction amount
+            if (transferAmount > Account.getMaxTransactionAmount())
+            {
+               screen.messageJLabel3.setText("Transfer amount exceeds maximum limit. Maximum: $" + 
+                                            String.format("%.2f", Account.getMaxTransactionAmount()));
+               userInput = "";
+               screen.Inputfield2.setText("");
+               return;
+            }
+            
             // Check if user has sufficient funds
             double availableBalance = bankDatabase.getAvailableBalance(getAccountNumber());
             if (transferAmount > availableBalance)
             {
                screen.messageJLabel3.setText("Insufficient funds. Available: $" + 
                                              String.format("%.2f", availableBalance));
+               userInput = "";
+               screen.Inputfield2.setText("");
+               return;
+            }
+            
+            // Check minimum balance requirement
+            Account account = bankDatabase.getAccount(getAccountNumber());
+            if (account != null && !account.hasMinimumBalance(transferAmount))
+            {
+               screen.messageJLabel3.setText("Transfer would violate minimum balance requirement. Minimum: $" + 
+                                            String.format("%.2f", Account.getMinimumBalance()));
                userInput = "";
                screen.Inputfield2.setText("");
                return;

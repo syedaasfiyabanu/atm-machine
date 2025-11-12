@@ -40,6 +40,16 @@ public class Deposit extends Transaction
       // check whether user entered a deposit amount or canceled
       if (amount != CANCELED)
       {
+         // Check maximum transaction amount
+         if (amount > Account.getMaxTransactionAmount())
+         {
+            screen.messageJLabel2.setText(
+               "\nDeposit amount exceeds maximum limit." +
+               "\nMaximum single transaction: $" + String.format("%.2f", Account.getMaxTransactionAmount()) +
+               "\n\nPlease enter a smaller amount.");
+            TransactionHistory.addTransaction(getAccountNumber(), "Deposit", amount, "Failed - Exceeds max transaction amount");
+            return;
+         }
          // request deposit envelope containing specified amount
          screen.messageJLabel2.setText( "\nPlease insert a deposit envelope containing " + amount);
 
@@ -106,12 +116,33 @@ public class Deposit extends Transaction
    {
       public void actionPerformed( ActionEvent e )
       {
-   	   
-         double input = Integer.parseInt( screen.Inputfield2.getText() );
-         double amount = input / 100;
-        
-         makedeposit(amount);
-       
+   	   try
+   	   {
+            String inputText = screen.Inputfield2.getText().trim();
+            if (inputText.isEmpty())
+            {
+               screen.messageJLabel3.setText("Please enter a deposit amount.");
+               return;
+            }
+            
+            double input = Double.parseDouble(inputText);
+            if (input < 0)
+            {
+               screen.messageJLabel3.setText("Deposit amount cannot be negative.");
+               return;
+            }
+            
+            double amount = input / 100;
+            makedeposit(amount);
+         }
+         catch (NumberFormatException ex)
+         {
+            screen.messageJLabel3.setText("Invalid input. Please enter numbers only.");
+         }
+         catch (Exception ex)
+         {
+            screen.messageJLabel3.setText("An error occurred. Please try again.");
+         }
       }
    }
    

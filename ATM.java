@@ -95,12 +95,27 @@ public class ATM
 	
 	   // set userAuthenticated to boolean value returned by database
 	   public void authenticateuser(int pin){
-      userAuthenticated = 
-         bankDatabase.authenticateUser(pin);
+      Account account = bankDatabase.getAccountByPin(pin);
+      
+      // Check if account exists and is not locked
+      if (account != null && account.getIsLocked())
+      {
+         screen.messageJLabel3.setText(
+             "Account is locked due to too many failed login attempts. Please contact your bank.");
+         return;
+      }
+      
+      userAuthenticated = bankDatabase.authenticateUser(pin);
       
       // check whether authentication succeeded
       if (userAuthenticated)
       {
+         // Reset failed attempts on successful login
+         if (account != null)
+         {
+            account.resetFailedAttempts();
+         }
+         
     	 int accountNumber = bankDatabase.getaccpin(pin);
     	  AdminCheck = bankDatabase.getadmin(pin);
     	  if (AdminCheck == 0){
@@ -125,8 +140,29 @@ public class ATM
          
       } // end if
       else
-         screen.messageJLabel3.setText(
-             "Invalid account number or PIN. Please try again.");
+      {
+         // Increment failed attempts
+         if (account != null)
+         {
+            account.incrementFailedAttempts();
+            int remaining = account.getRemainingAttempts();
+            if (account.getIsLocked())
+            {
+               screen.messageJLabel3.setText(
+                   "Account locked! Too many failed attempts. Please contact your bank.");
+            }
+            else
+            {
+               screen.messageJLabel3.setText(
+                   "Invalid PIN. " + remaining + " attempt(s) remaining.");
+            }
+         }
+         else
+         {
+            screen.messageJLabel3.setText(
+                "Invalid account number or PIN. Please try again.");
+         }
+      }
    } // end method authenticateUser
 
 	   private class authenticate implements ActionListener

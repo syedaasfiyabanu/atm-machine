@@ -50,6 +50,17 @@ public class Withdrawal extends Transaction
             availableBalance = 
                bankDatabase.getAvailableBalance(getAccountNumber());
       
+            // Check maximum transaction amount
+            if (amount > Account.getMaxTransactionAmount())
+            {
+               screen.messageJLabel7.setText(
+                  "\nTransaction amount exceeds maximum limit." +
+                  "\nMaximum single transaction: $" + String.format("%.2f", Account.getMaxTransactionAmount()) +
+                  "\n\nPlease choose a smaller amount.");
+               TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Failed - Exceeds max transaction amount");
+               return;
+            }
+            
             // Check daily withdrawal limit first
             if (!account.canWithdraw(amount))
             {
@@ -59,6 +70,17 @@ public class Withdrawal extends Transaction
                   "\nRemaining daily limit: $" + String.format("%.2f", remainingLimit) +
                   "\n\nPlease choose a smaller amount.");
                TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Failed - Daily limit exceeded");
+               return;
+            }
+            
+            // Check minimum balance requirement
+            if (!account.hasMinimumBalance(amount))
+            {
+               screen.messageJLabel7.setText(
+                  "\nTransaction would violate minimum balance requirement." +
+                  "\nMinimum balance required: $" + String.format("%.2f", Account.getMinimumBalance()) +
+                  "\n\nPlease choose a smaller amount.");
+               TransactionHistory.addTransaction(getAccountNumber(), "Withdrawal", amount, "Failed - Would violate minimum balance");
                return;
             }
             

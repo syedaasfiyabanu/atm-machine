@@ -208,8 +208,8 @@ Ensure JDK 17 is installed and PATH is updated. On Windows, open a new terminal 
 
 ## Contributors
 
-- **Rachana181818** - Main developer and feature implementation
-- **syedaasfiyabanu** - Collaborator
+- **syedaasfiyabanu** - Team Lead
+- **Rachana181818** - Collaborator
 - **yashaswinmbsc24** - Collaborator
 
 ## License

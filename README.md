@@ -11,22 +11,22 @@ This ATM system has been enhanced with several powerful security and user experi
 ### ✨ What's New:
 
 **Security Enhancements (Latest - Nov 12, 2025)**
-- 🔒 **Account Lockout Security** - Accounts are locked after 3 failed PIN attempts
-- 💰 **Minimum Balance Requirement** - Accounts must maintain $10.00 minimum balance
-- 🚫 **Maximum Transaction Limits** - Single transaction limit of $5,000 to prevent fraud
-- ✅ **Enhanced Error Handling** - Improved input validation and user-friendly error messages
+- **Account Lockout Security** - Accounts are locked after 3 failed PIN attempts
+- **Minimum Balance Requirement** - Accounts must maintain $10.00 minimum balance
+- **Maximum Transaction Limits** - Single transaction limit of $5,000 to prevent fraud
+- **Enhanced Error Handling** - Improved input validation and user-friendly error messages
 
 **Transaction Features (Nov 10, 2025)**
-- 📊 **Daily Withdrawal Limit** - $1,000 daily withdrawal limit per account
-- ⚠️ **Low Balance Warning** - Alerts when balance falls below $50.00
-- 🧾 **Transaction Receipts** - Detailed receipts for all transactions (withdrawal, deposit, transfer)
-- 📄 **Account Statement Export** - Export complete transaction history to text file
+- **Daily Withdrawal Limit** - $1,000 daily withdrawal limit per account
+- **Low Balance Warning** - Alerts when balance falls below $50.00
+- **Transaction Receipts** - Detailed receipts for all transactions (withdrawal, deposit, transfer)
+- **Account Statement Export** - Export complete transaction history to text file
 
 **Core Features (Nov 7, 2025)**
-- 📜 **Transaction History** - View complete transaction history with timestamps
-- 🔐 **PIN Change** - Secure PIN change with strength validation
-- 💸 **Money Transfer** - Transfer funds between accounts with validation
-- 👤 **Account Management** - Enhanced account display and management
+- **Transaction History** - View complete transaction history with timestamps
+- **PIN Change** - Secure PIN change with strength validation
+- **Money Transfer** - Transfer funds between accounts with validation
+- **Account Management** - Enhanced account display and management
 
 ## Prerequisites
 
@@ -114,35 +114,35 @@ To modify accounts, edit the `BankDatabase.java` constructor.
 
 ## Features Overview
 
-### ✅ Core Banking Features
-- 💳 **Account Management** - Multiple account support with PIN authentication
-- 💵 **Cash Withdrawal** - Multiple withdrawal amounts with ATM cash dispenser simulation
-- 💰 **Deposit** - Deposit money with envelope simulation
-- 🔄 **Balance Inquiry** - Real-time account balance checking
+### Core Banking Features
+- **Account Management** - Multiple account support with PIN authentication
+- **Cash Withdrawal** - Multiple withdrawal amounts with ATM cash dispenser simulation
+- **Deposit** - Deposit money with envelope simulation
+- **Balance Inquiry** - Real-time account balance checking
 
-### ✅ Security Features
-- 🔒 **Account Lockout** - Automatic lockout after 3 failed PIN attempts
-- 🔐 **PIN Management** - Secure PIN change with strength validation
-- 🛡️ **Transaction Limits** - Daily withdrawal limits and maximum transaction amounts
-- ⚖️ **Balance Protection** - Minimum balance requirement ($10.00)
+### Security Features
+- **Account Lockout** - Automatic lockout after 3 failed PIN attempts
+- **PIN Management** - Secure PIN change with strength validation
+- **Transaction Limits** - Daily withdrawal limits and maximum transaction amounts
+- **Balance Protection** - Minimum balance requirement ($10.00)
 
-### ✅ Transaction Management
-- 📜 **Transaction History** - Complete transaction log with timestamps
-- 🧾 **Transaction Receipts** - Detailed receipts for all transactions
-- 📄 **Statement Export** - Export transaction history to text file
-- ⚠️ **Low Balance Alerts** - Automatic warnings when balance is low
+### Transaction Management
+- **Transaction History** - Complete transaction log with timestamps
+- **Transaction Receipts** - Detailed receipts for all transactions
+- **Statement Export** - Export transaction history to text file
+- **Low Balance Alerts** - Automatic warnings when balance is low
 
-### ✅ User Experience
-- 🎨 **Swing GUI** - Modern, user-friendly graphical interface
-- ⌨️ **On-Screen Keypad** - Easy number input with clear button
-- 📊 **Real-time Feedback** - Instant transaction confirmations and error messages
-- 🔍 **Transaction Tracking** - View all past transactions with status
+### User Experience
+- **Swing GUI** - Modern, user-friendly graphical interface
+- **On-Screen Keypad** - Easy number input with clear button
+- **Real-time Feedback** - Instant transaction confirmations and error messages
+- **Transaction Tracking** - View all past transactions with status
 
-### ✅ Advanced Features
-- 👥 **Admin Panel** - Complete account management for administrators
-- 🔄 **Money Transfer** - Transfer funds between accounts with validation
-- 📈 **Daily Limits** - Automatic daily withdrawal limit tracking and reset
-- ✅ **Input Validation** - Comprehensive validation for all user inputs
+### Advanced Features
+- **Admin Panel** - Complete account management for administrators
+- **Money Transfer** - Transfer funds between accounts with validation
+- **Daily Limits** - Automatic daily withdrawal limit tracking and reset
+- **Input Validation** - Comprehensive validation for all user inputs
 
 ## Project Structure
 
@@ -209,6 +209,8 @@ Ensure JDK 17 is installed and PATH is updated. On Windows, open a new terminal 
 ## Contributors
 
 - **Rachana181818** - Main developer and feature implementation
+- **syedaasfiyabanu** - Collaborator
+- **yashaswinmbsc24** - Collaborator
 
 ## License
 

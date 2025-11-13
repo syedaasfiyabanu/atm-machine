@@ -1,5 +1,3 @@
-
-
 // Account.java
 // Represents a bank account
 
@@ -24,7 +22,7 @@ public class Account
    public Account(String Username, int theAccountNumber, int thePIN, 
       double theAvailableBalance, double theTotalBalance, int isadmin)
    {
-	   setUsername(Username);
+      setUsername(Username);
       setAccountNumber(theAccountNumber);
       setPin(thePIN);
       setAvailableBalance(theAvailableBalance);
@@ -79,146 +77,149 @@ public class Account
    
    public int getISadmin()
    {
-	   return getAdmin();  
+      return getAdmin();  
    }
    
    public int GetPin(){
-	   return getPin();
+      return getPin();
    }
 
-public String getUsername() {
-	return username;
-}
+   public String getUsername() {
+      return username;
+   }
 
-public void setUsername(String username) {
-	this.username = username;
-}
+   public void setUsername(String username) {
+      this.username = username;
+   }
 
-public void setAccountNumber(int accountNumber) {
-	this.accountNumber = accountNumber;
-}
+   public void setAccountNumber(int accountNumber) {
+      this.accountNumber = accountNumber;
+   }
 
-public int getPin() {
-	return pin;
-}
+   public int getPin() {
+      return pin;
+   }
 
-public void setPin(int pin) {
-	this.pin = pin;
-}
+   public void setPin(int pin) {
+      this.pin = pin;
+   }
 
-public void setAvailableBalance(double availableBalance) {
-	this.availableBalance = availableBalance;
-}
+   public void setAvailableBalance(double availableBalance) {
+      this.availableBalance = availableBalance;
+   }
 
-public void setTotalBalance(double totalBalance) {
-	this.totalBalance = totalBalance;
-}
+   public void setTotalBalance(double totalBalance) {
+      this.totalBalance = totalBalance;
+   }
 
-public int getAdmin() {
-	return admin;
-}
+   public int getAdmin() {
+      return admin;
+   }
 
-public void setAdmin(int admin) {
-	this.admin = admin;
-}
+   public void setAdmin(int admin) {
+      this.admin = admin;
+   }
 
-public double getDailyWithdrawalAmount() {
-	return dailyWithdrawalAmount;
-}
+   public double getDailyWithdrawalAmount() {
+      return dailyWithdrawalAmount;
+   }
 
-public void setDailyWithdrawalAmount(double dailyWithdrawalAmount) {
-	this.dailyWithdrawalAmount = dailyWithdrawalAmount;
-}
+   public void setDailyWithdrawalAmount(double dailyWithdrawalAmount) {
+      this.dailyWithdrawalAmount = dailyWithdrawalAmount;
+   }
 
-public double getDailyWithdrawalLimit() {
-	return dailyWithdrawalLimit;
-}
+   public double getDailyWithdrawalLimit() {
+      return dailyWithdrawalLimit;
+   }
 
-public void setDailyWithdrawalLimit(double dailyWithdrawalLimit) {
-	this.dailyWithdrawalLimit = dailyWithdrawalLimit;
-}
+   public void setDailyWithdrawalLimit(double dailyWithdrawalLimit) {
+      this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+   }
 
-public String getLastTransactionDate() {
-	return lastTransactionDate;
-}
+   public String getLastTransactionDate() {
+      return lastTransactionDate;
+   }
 
-public void setLastTransactionDate(String lastTransactionDate) {
-	this.lastTransactionDate = lastTransactionDate;
-}
+   public void setLastTransactionDate(String lastTransactionDate) {
+      this.lastTransactionDate = lastTransactionDate;
+   }
 
-// Reset daily withdrawal amount if it's a new day
-public void resetDailyWithdrawalIfNewDay() {
-	String today = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
-	if (!today.equals(getLastTransactionDate())) {
-		setDailyWithdrawalAmount(0.0);
-		setLastTransactionDate(today);
-	}
-}
+   // Reset daily withdrawal amount if it's a new day
+   public void resetDailyWithdrawalIfNewDay() {
+      String today = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+      if (!today.equals(getLastTransactionDate())) {
+         setDailyWithdrawalAmount(0.0);
+         setLastTransactionDate(today);
+      }
+   }
 
-// Check if withdrawal amount exceeds daily limit
-public boolean canWithdraw(double amount) {
-	resetDailyWithdrawalIfNewDay();
-	return (getDailyWithdrawalAmount() + amount) <= getDailyWithdrawalLimit();
-}
+   // Check if withdrawal amount exceeds daily limit
+   public boolean canWithdraw(double amount) {
+      resetDailyWithdrawalIfNewDay();
+      return (getDailyWithdrawalAmount() + amount) <= getDailyWithdrawalLimit();
+   }
 
-// Add to daily withdrawal amount
-public void addToDailyWithdrawal(double amount) {
-	resetDailyWithdrawalIfNewDay();
-	setDailyWithdrawalAmount(getDailyWithdrawalAmount() + amount);
-}
+   // Add to daily withdrawal amount
+   public void addToDailyWithdrawal(double amount) {
+      resetDailyWithdrawalIfNewDay();
+      setDailyWithdrawalAmount(getDailyWithdrawalAmount() + amount);
+   }
 
-// Check if balance is low (below $50)
-public boolean isLowBalance() {
-	return getAvailableBalance() < 50.0;
-}
+   // Check if balance is low (below $50)
+   public boolean isLowBalance() {
+      return getAvailableBalance() < 50.0;
+   }
 
-// Check if account has minimum balance
-public boolean hasMinimumBalance(double amount) {
-	return (getAvailableBalance() - amount) >= MINIMUM_BALANCE;
-}
+   // Check if account has minimum balance
+   public boolean hasMinimumBalance(double amount) {
+      return (getAvailableBalance() - amount) >= MINIMUM_BALANCE;
+   }
 
-// Get minimum balance requirement
-public static double getMinimumBalance() {
-	return MINIMUM_BALANCE;
-}
+   // Get minimum balance requirement
+   public static double getMinimumBalance() {
+      return MINIMUM_BALANCE;
+   }
 
-// Get maximum transaction amount
-public static double getMaxTransactionAmount() {
-	return MAX_TRANSACTION_AMOUNT;
-}
+   // Get maximum transaction amount
+   public static double getMaxTransactionAmount() {
+      return MAX_TRANSACTION_AMOUNT;
+   }
 
-// Failed login attempt tracking
-public void incrementFailedAttempts() {
-	failedLoginAttempts++;
-	if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
-		setIsLocked(true);
-	}
-}
+   // Failed login attempt tracking
+   public void incrementFailedAttempts() {
+      failedLoginAttempts++;
+      if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
+         setIsLocked(true);
+      }
+   }
 
-// Reset failed attempts (on successful login)
-public void resetFailedAttempts() {
-	failedLoginAttempts = 0;
-	setIsLocked(false);
-}
+   // Reset failed attempts (on successful login)
+   public void resetFailedAttempts() {
+      failedLoginAttempts = 0;
+      setIsLocked(false);
+   }
 
-public int getFailedLoginAttempts() {
-	return failedLoginAttempts;
-}
+   public int getFailedLoginAttempts() {
+      return failedLoginAttempts;
+   }
 
-public boolean getIsLocked() {
-	return isLocked;
-}
+   public boolean getIsLocked() {
+      return isLocked;
+   }
 
-public void setIsLocked(boolean locked) {
-	this.isLocked = locked;
-}
+   public void setIsLocked(boolean locked) {
+      this.isLocked = locked;
+   }
 
-public int getRemainingAttempts() {
-	return MAX_FAILED_ATTEMPTS - failedLoginAttempts;
-}
-  
-   
+   public int getRemainingAttempts() {
+      return MAX_FAILED_ATTEMPTS - failedLoginAttempts;
+   }
+
+   public void setFailedLoginAttempts(int failedLoginAttempts) {
+      this.failedLoginAttempts = failedLoginAttempts;
+   }
 } // end class Account
+
 
 
 /**************************************************************************

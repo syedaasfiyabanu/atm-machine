@@ -65,7 +65,6 @@ public class Transfer extends Transaction
       {
          if (step == 1)
          {
-            // First step: get target account number
             if (userInput.isEmpty())
             {
                screen.messageJLabel3.setText("Please enter a target account number.");
@@ -73,8 +72,6 @@ public class Transfer extends Transaction
             }
             
             targetAccountNumber = Integer.parseInt(userInput);
-            
-            // Validate target account exists
             Account targetAccount = bankDatabase.getAccount(targetAccountNumber);
             if (targetAccount == null)
             {
@@ -100,7 +97,6 @@ public class Transfer extends Transaction
          }
          else if (step == 2)
          {
-            // Second step: get transfer amount
             if (userInput.isEmpty())
             {
                screen.messageJLabel3.setText("Please enter a transfer amount.");
@@ -118,7 +114,6 @@ public class Transfer extends Transaction
                return;
             }
             
-            // Check maximum transaction amount
             if (transferAmount > Account.getMaxTransactionAmount())
             {
                screen.messageJLabel3.setText("Transfer amount exceeds maximum limit. Maximum: $" + 
@@ -128,7 +123,6 @@ public class Transfer extends Transaction
                return;
             }
             
-            // Check if user has sufficient funds
             double availableBalance = bankDatabase.getAvailableBalance(getAccountNumber());
             if (transferAmount > availableBalance)
             {
@@ -139,7 +133,6 @@ public class Transfer extends Transaction
                return;
             }
             
-            // Check minimum balance requirement
             Account account = bankDatabase.getAccount(getAccountNumber());
             if (account != null && !account.hasMinimumBalance(transferAmount))
             {
@@ -150,22 +143,17 @@ public class Transfer extends Transaction
                return;
             }
             
-            // Perform transfer
             bankDatabase.debit(getAccountNumber(), transferAmount);
             bankDatabase.credit(targetAccountNumber, transferAmount);
             
-            // Get new balance for receipt
             double newBalance = bankDatabase.getAvailableBalance(getAccountNumber());
-            Account account = bankDatabase.getAccount(getAccountNumber());
             
-            // Check for low balance warning
             String lowBalanceWarning = "";
             if (account.isLowBalance())
             {
                lowBalanceWarning = "\n⚠ WARNING: Your account balance is low!";
             }
             
-            // Generate receipt
             String receipt = generateReceipt("Transfer Out", transferAmount, newBalance, targetAccountNumber);
             
             screen.messageJLabel3.setText("Transfer successful! $" + 
@@ -173,13 +161,11 @@ public class Transfer extends Transaction
                                           " transferred to Account #" + targetAccountNumber +
                                           lowBalanceWarning + "\n\n" + receipt);
             
-            // Log transaction
             TransactionHistory.addTransaction(getAccountNumber(), "Transfer Out", 
                                             transferAmount, "Success");
             TransactionHistory.addTransaction(targetAccountNumber, "Transfer In", 
                                             transferAmount, "Success");
             
-            // Return to menu after 3 seconds
             new Thread(new Runnable() {
                public void run() {
                   try {
@@ -230,7 +216,6 @@ public class Transfer extends Transaction
       }
    }
    
-   // Generate a receipt for the transaction
    private String generateReceipt(String transactionType, double amount, double newBalance, int targetAccount)
    {
       String receipt = "=== TRANSACTION RECEIPT ===\n";
